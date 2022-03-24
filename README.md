@@ -70,3 +70,55 @@ void loop() {
 ```
 
 # Introduction and quick start for `DigitalOut`
+Creates an instance of the `DigitalOut` class
+```C++
+DigitalOut output(OutType::SR, 13, 0, true);  // Set/Reset with active low out (tipical relay board)
+DigitalOut output(OutType::BLINK, 13, 500);   // Blink pin (on condition) (type, pin, set time)
+DigitalOut output(OutType::TOFF, 13, 2000);   // Delayed OFF timer
+DigitalOut output(OutType::TON, 13, 2000);    // Delayed ON timer
+DigitalOut output(OutType::TON_M, 13, 2000);  // Delayed ON timer with memory (this timer has to be cleared manually)
+```
+Read and write the state of output with an operator shorthand
+```C++
+DigitalOut out1(OutType::TON, 13, 2000); 
+DigitalOut out2(OutType::SR, 12);   
+DigitalIn input(2); // Default INPUT_PULLUP, debounce threshold 70ms
+
+.......
+out1.run(input);
+
+if (out1) {
+  Serial.println("The out1 is active");
+  out2 = true;
+}
+```
+
+Delay ON with memory timed auto-reset
+```C++
+DigitalOut output(OutType::TON_M, 13, 2000);  
+DigitalIn input(2); // Default INPUT_PULLUP, debounce threshold 70ms
+
+// When input == true, the timer will start. 
+// After setted time, output become true and then back to false after 1000 ms
+.......
+output.run(input, 1000);    
+
+/* Alternative way (more complex, but could be useful to handle something)
+if (output) {
+  if (millis() - output.switchTime() > output.getTime() + 1000) {
+    output.clear();
+  }
+}
+*/
+```
+
+Blink n times or continuosly (while input == true)
+```C++
+DigitalOut blink1(OutType::BLINK, 13, 500);  
+DigitalOut blink2(OutType::BLINK, 12, 500);  
+DigitalIn input(2); 
+
+.......
+blink1.run(input, 5);    // This will blink 5 times (with memory)
+blink2.run(input);       // This will blink while input is true
+```
