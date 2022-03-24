@@ -65,7 +65,7 @@ void setup() {
 }
 
 void loop() { 
-  button1.update();
+  button.update();
 }
 ```
 
