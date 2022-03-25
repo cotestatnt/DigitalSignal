@@ -1,5 +1,5 @@
 # Arduino Digital Signal library
-Arduino Digital Signal let you to configure and control in clear and easy way digital signals with your Arduino board like push buttons, swithes, relay (active low or active high), leds etc etc.
+Arduino Digital Signal let you to configure and control in clear and easy way digital signals with your Arduino board like push buttons, switches, relays (active low or active high), leds etc etc.
 
 [Configure and control digital INPUT signals with debouncing and different click handlers](https://github.com/cotestatnt/DigitalSignal/edit/main/README.md#introduction-and-quick-start-for-digitalin)
   - capture a debounced single click event 
