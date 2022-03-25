@@ -1,14 +1,14 @@
 # Arduino Digital Signal library
 Arduino Digital Signal let you to configure and control in clear and easy way digital signals with your Arduino board like push buttons, switches, relays (active low or active high), leds etc etc.
 
-[Configure and control digital INPUT signals with debouncing and different click handlers](https://github.com/cotestatnt/DigitalSignal/edit/main/README.md#introduction-and-quick-start-for-digitalin)
+[Configure and control digital INPUT signals with debouncing and different click handlers](https://github.com/cotestatnt/DigitalSignal#introduction-and-quick-start-for-digitalin)
   - capture a debounced single click event 
   - capture a debounced double (or more) click event
   - capture a debounced long click event (on release or after setted time)
   - set function callback for press edge
   - set function callback for release edge
 
-[Configure and control digital OUTPUT signals with different working modes](https://github.com/cotestatnt/DigitalSignal/edit/main/README.md#introduction-and-quick-start-for-digitalout)
+[Configure and control digital OUTPUT signals with different working modes](https://github.com/cotestatnt/DigitalSignal#introduction-and-quick-start-for-digitalout)
   - Set/Reset
   - Delayed OFF timer
   - Delayed ON timer
