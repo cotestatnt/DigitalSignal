@@ -1,27 +1,25 @@
 
 #include "DigitalOut.h"
 
-DigitalOut::DigitalOut(OutType type, bool *var, uint32_t time) {
+DigitalOut::DigitalOut(OutType type, uint32_t time) {
   m_type = type;
   m_setTime = time;
-  m_outVariable = var;
   m_offTime = 0;
 }
 
-DigitalOut::DigitalOut(OutType type, int8_t pin, uint32_t time, bool activeLow) {
+DigitalOut::DigitalOut(OutType type, uint8_t pin, uint32_t time, bool activeLow) {
   m_type = type;
   m_pin = pin;
   m_setTime = time;
   m_activeLow = activeLow;
   m_offTime = 0;
   m_isgpio = true;
-  if (m_pin >= 0) {
-    if (activeLow)
-      // Avoid pin high at boot
-      digitalWrite(m_pin, HIGH);
-    pinMode(m_pin, OUTPUT);
-    reset();
+  if (activeLow) {
+    // Avoid pin high at boot
+    digitalWrite(m_pin, HIGH);
   }
+  pinMode(m_pin, OUTPUT);
+  reset();
 }
 
 // Delay OFF

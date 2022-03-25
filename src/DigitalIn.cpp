@@ -1,6 +1,6 @@
 #include "DigitalIn.h"
 
-DigitalIn::DigitalIn(IOPinName _pin, IOPinMode _mode = INPUT_PULLUP, uint32_t _time = 70) {
+DigitalIn::DigitalIn(IOPinName _pin, IOPinMode _mode, uint32_t _time) {
   m_lastCheckTime = 0;
   m_pressedDuration = 0;
   m_longPress = false;

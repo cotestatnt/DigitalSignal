@@ -11,14 +11,13 @@ using Output::OutType;
 class DigitalOut
 {
   private:
-    int8_t   m_pin;
+    uint8_t   m_pin;
     OutType  m_type;
 
     bool     m_activeLow;
     bool     m_memoryFlag;
     bool     m_state;
     bool     m_isgpio;
-    bool*    m_outVariable;
 
     uint32_t m_activeTime;
     uint32_t m_setTime;
@@ -42,8 +41,8 @@ class DigitalOut
     void write(bool val);
 
   public:
-    DigitalOut(OutType type, bool *var, uint32_t time = 0);
-    DigitalOut(OutType type, int8_t pin, uint32_t time = 0, bool activeLow = false);
+    DigitalOut(OutType type, uint32_t time = 0);
+    DigitalOut(OutType type, uint8_t pin, uint32_t time = 0, bool activeLow = false);
 
     void clear();
     void set();

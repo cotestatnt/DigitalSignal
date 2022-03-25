@@ -1,0 +1,36 @@
+#######################################
+# Syntax Coloring Map StateMachine
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+DigitalIn	KEYWORD1
+DigitalOut  KEYWORD1
+Output      KEYWORD1
+OutType     KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+pressCallback	KEYWORD2
+releaseCallback	KEYWORD2
+setLongClickTime   KEYWORD2
+setDoubleClickTime KEYWORD2
+isActive	KEYWORD2
+update  	KEYWORD2
+click   	KEYWORD2
+doubleClick	KEYWORD2
+longClick   KEYWORD2
+clear	    KEYWORD2
+set	        KEYWORD2
+reset       KEYWORD2
+run         KEYWORD2
+switchTime      KEYWORD2
+getTime		    KEYWORD2
+setTime     	KEYWORD2
+setOffTime		KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################
