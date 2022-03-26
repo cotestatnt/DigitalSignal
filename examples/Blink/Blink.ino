@@ -9,8 +9,6 @@ DigitalOut  out1(OutType::BLINK, LED1, 500);   // Blink with 500ms interval
 DigitalOut  out2(OutType::BLINK, LED2, 250);   // Blink with 250ms interval (for 5 times)
 
 void setup() {
-  Serial.begin(115200);
-  Serial.println();
 }
 
 void loop() {

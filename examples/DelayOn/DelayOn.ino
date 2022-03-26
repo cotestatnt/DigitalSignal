@@ -17,11 +17,6 @@ DigitalOut  out2(OutType::TON_M, LED2, 2000); // Delayed ON timer with memory
 */
 
 void setup() {
-  Serial.begin(115200);
-  Serial.println("Delay ON example");
-  pinMode(BTN1, INPUT_PULLUP);
-  pinMode(LED1, OUTPUT);
-  pinMode(LED2, OUTPUT);
 }
 
 void loop() {
@@ -30,7 +25,7 @@ void loop() {
 
   // Delayed ON timer with memory will be automatic cleared after 1000ms
   out2.run(button, 1000);
-  
+
   /* Alternative way (more complex, but could be useful to handle)
   if (out2) {
     if (millis() - out2.switchTime() > out2.getTime() + 1000) {

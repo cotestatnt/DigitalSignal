@@ -9,8 +9,6 @@ DigitalIn   btnReset(BTN2);                       // Default INPUT_PULLUP, debou
 DigitalOut  relay1(OutType::SR, RLY1, 0, true);   // Set/Reset relay coil (active on LOW signal)
 
 void setup() {
-  Serial.begin(115200);
-  Serial.println();
 }
 
 void loop() {
