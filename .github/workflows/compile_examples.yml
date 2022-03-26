@@ -9,7 +9,53 @@ on:
     paths-ignore:
       - '.github/workflows/cpp_lint.yml'
       - '.github/workflows/compile_library.yml'    
-jobs:    
+jobs:   
+  atmelavr:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        example: 
+        - "examples/PushButton/PushButton.ino"
+        - "examples/DelayOff/DelayOff.ino"
+        - "examples/DelayOn/DelayOn.ino"
+        - "examples/Blink/Blink.ino"
+        - "examples/RelayActiveLow/RelayActiveLow.ino"
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Cache pip
+      uses: actions/cache@v2
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+        restore-keys: ${{ runner.os }}-pip-
+        
+    - name: Cache PlatformIO
+      uses: actions/cache@v2
+      with:
+        path: ~/.platformio
+        key: ${{ runner.os }}-${{ hashFiles('**/lockfiles') }}
+        
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      
+    - name: Install PlatformIO
+      run: |
+        python -m pip install --upgrade pip
+        pip install --upgrade platformio
+        
+    - name: Install 3rd party dependecies
+      run: | 
+        pio lib -g install \
+        https://github.com/cotestatnt/DigitalSignal
+        
+    - name: Run PlatformIO Examples
+      run: |
+        pio ci --board=uno 
+      env:
+        PLATFORMIO_CI_SRC: ${{ matrix.example }}
+        
   esp8266:
     runs-on: ubuntu-latest
     strategy:
@@ -52,7 +98,7 @@ jobs:
         
     - name: Run PlatformIO Examples
       run: |
-        pio ci --board=nodemcu-32s 
+        pio ci --board=nodemcuv2 
       env:
         PLATFORMIO_CI_SRC: ${{ matrix.example }}
 
