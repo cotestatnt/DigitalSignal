@@ -15,7 +15,7 @@ Arduino Digital Signal let you to configure and control in clear and easy way di
   - Delayed ON timer with memory
   - Blink with user defined frequency
 
-The ouput controlled can be also "virtualized" using a `bool` variable 
+The ouput can be also "virtualized" using like a `bool` variable 
 
 # Introduction and quick start for `DigitalIn`
 Creates an instance of the `DigitalIn` class
