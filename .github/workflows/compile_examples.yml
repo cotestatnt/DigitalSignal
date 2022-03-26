@@ -52,7 +52,7 @@ jobs:
         
     - name: Run PlatformIO Examples
       run: |
-        pio ci --board=nodemcuv2 
+        pio ci --board=nodemcu-32s 
       env:
         PLATFORMIO_CI_SRC: ${{ matrix.example }}
 
@@ -98,6 +98,6 @@ jobs:
         
     - name: Run PlatformIO Examples
       run: |
-        pio ci --board=esp32dev 
+        pio ci --board=nodemcu-32s 
       env:
         PLATFORMIO_CI_SRC: ${{ matrix.example }}
