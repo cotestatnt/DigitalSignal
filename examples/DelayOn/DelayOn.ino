@@ -2,7 +2,7 @@
 
 #define BTN1 2
 #define LED1 LED_BUILTIN
-#define LED2 13
+#define LED2 12
 
 DigitalIn   button(BTN1);                     // Default INPUT_PULLUP, debounce threshold 70ms
 DigitalOut  out1(OutType::TON, LED1, 1000);   // Delayed ON timer
