@@ -14,11 +14,11 @@ DigitalIn::DigitalIn(IOPinName _pin, IOPinMode _mode, uint32_t _time) {
   pinMode(m_pin, _mode);
 }
 
-void DigitalIn::pressCallback(function_cb fn) {
+void DigitalIn::onPressed(function_cb fn) {
   fn_press = fn;
 }
 
-void DigitalIn::releaseCallback(function_cb fn) {
+void DigitalIn::onReleased(function_cb fn) {
   fn_release = fn;
 }
 

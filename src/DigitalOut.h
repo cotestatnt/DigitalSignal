@@ -6,6 +6,8 @@ namespace Output {
 enum class OutType {SR, TOFF, TON, TON_M, BLINK};
 }
 
+typedef void(*function_cb)();
+
 using Output::OutType;
 
 class DigitalOut
@@ -17,6 +19,7 @@ class DigitalOut
     bool     m_activeLow;
     bool     m_memoryFlag;
     bool     m_state;
+    bool     m_lastState;
     bool     m_isgpio;
 
     uint32_t m_activeTime;
@@ -39,6 +42,9 @@ class DigitalOut
 
     // Set output state
     void write(bool val);
+
+    function_cb fn_rise = nullptr;
+    function_cb fn_fall = nullptr;
 
   public:
     DigitalOut(OutType type, uint32_t time = 0);
@@ -72,6 +78,14 @@ class DigitalOut
     /* A shorthand for write() */
     void operator= (bool value) {
       write(value);
+    }
+
+    inline void onRising(function_cb fn) {
+      fn_rise = fn;
+    }
+
+    inline void onFalling(function_cb fn) {
+      fn_fall = fn;
     }
 
 };

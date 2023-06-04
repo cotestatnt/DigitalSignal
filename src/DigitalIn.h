@@ -38,9 +38,11 @@ class DigitalIn {
 
     DigitalIn(IOPinName _pin, IOPinMode _mode = INPUT_PULLUP, uint32_t _time = 70);
 
-    void pressCallback(function_cb fn);
+    void pressCallback(function_cb fn)  {onPressed(fn);}
+    void releaseCallback(function_cb fn) {onReleased(fn);}
 
-    void releaseCallback(function_cb fn);
+    void onPressed(function_cb fn);
+    void onReleased(function_cb fn);
 
     /** Set the input pin mode
      *
