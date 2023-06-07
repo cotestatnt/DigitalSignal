@@ -123,7 +123,7 @@ void DigitalOut::set() {
   if (m_isgpio)
     digitalWrite(m_pin, m_activeLow ? LOW : HIGH);
 
-  if (!m_lastState)
+  if (!m_lastState && fn_rise != nullptr )
     fn_rise();
 
   m_state = true;
@@ -134,7 +134,7 @@ void DigitalOut::reset() {
   if (m_isgpio)
     digitalWrite(m_pin, m_activeLow ? HIGH : LOW);
 
-  if (m_lastState)
+  if (m_lastState && fn_fall != nullptr)
     fn_fall();
 
   m_state = false;
