@@ -6,7 +6,7 @@ namespace Output {
 enum class OutType {SR, TOFF, TON, TON_M, BLINK};
 }
 
-typedef void(*function_cb)();
+typedef void(*function_out_cb)();
 
 using Output::OutType;
 
@@ -43,8 +43,8 @@ class DigitalOut
     // Set output state
     void write(bool val);
 
-    function_cb fn_rise = nullptr;
-    function_cb fn_fall = nullptr;
+    function_out_cb fn_rise = nullptr;
+    function_out_cb fn_fall = nullptr;
 
   public:
     DigitalOut(OutType type, uint32_t time = 0);
@@ -80,11 +80,11 @@ class DigitalOut
       write(value);
     }
 
-    inline void onRising(function_cb fn) {
+    inline void onRising(function_out_cb fn) {
       fn_rise = fn;
     }
 
-    inline void onFalling(function_cb fn) {
+    inline void onFalling(function_out_cb fn) {
       fn_fall = fn;
     }
 

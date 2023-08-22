@@ -54,13 +54,13 @@ uint8_t DigitalIn::update() {
 
     if (!m_pressEdge && fn_press != nullptr && m_pressedDuration > m_bounceTime) {
       m_pressEdge = true;
-      fn_press();
+      fn_press(this);
     }
   }
   else {
     m_pressEdge = false;
     if (fn_release != nullptr && m_pressedDuration > m_bounceTime) {
-      fn_release();
+      fn_release(this);
     }
 
     if (m_pressedDuration > m_longClickTime) {

@@ -6,7 +6,7 @@
 typedef int IOPinName;
 typedef int IOPinMode;
 
-typedef void(*function_cb)();
+typedef void(*function_cb)(void*);
 
 
 /** A digital input, used for reading the state of a pin
@@ -91,6 +91,11 @@ class DigitalIn {
     operator bool() {
       update();
       return isActive() && m_pressedDuration > m_bounceTime;
+    }
+
+    /** Get assigned GPIO number */
+    int getPin() {
+      return m_pin;
     }
 };
 
