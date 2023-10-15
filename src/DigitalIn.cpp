@@ -8,7 +8,7 @@ DigitalIn::DigitalIn(IOPinName _pin, IOPinMode _mode, uint32_t _time) {
   m_shortPressCnt = LONG_CLICK;
 
   m_bounceTime = _time;
-  m_deadTime = 2*m_bounceTime;
+  m_deadTime = 2 * m_bounceTime;
   m_pin = _pin;
   m_mode = _mode;
   pinMode(m_pin, _mode);
@@ -27,7 +27,7 @@ void DigitalIn::mode(IOPinMode pull) {
   pinMode(m_pin, pull);
 }
 
-void DigitalIn::setLongClickTime(uint32_t newTime){
+void DigitalIn::setLongClickTime(uint32_t newTime) {
   m_longClickTime = newTime;
 }
 

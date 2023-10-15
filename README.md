@@ -49,12 +49,18 @@ if (button1.longClick(true)) {
 ```
 Use the callback function for edge transition
 ```C++
-void buttonPressed() {
+void buttonPressed(void* arg) {
+  DigitalIn* btn = (DigitalIn*) arg;
+  Serial.print("GPIO ");
+  Serial.print(btn->getPin());
   Serial.println("Button pressed");   
 }
 
-void buttonReleased() {
-  Serial.println("Button released");   
+void buttonReleased(void* arg) {
+  DigitalIn* btn = (DigitalIn*) arg;
+  Serial.print("GPIO ");
+  Serial.print(btn->getPin());
+  Serial.println(" - Button released");   
 }
 
 void setup() {

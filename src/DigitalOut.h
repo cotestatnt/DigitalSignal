@@ -3,81 +3,59 @@
 #include "Arduino.h"
 
 namespace Output {
-enum class OutType {SR, TOFF, TON, TON_M, BLINK};
+enum class Type {SR, TOFF, TON, TON_M, TON_TOFF, BLINK};
 }
 
-typedef void(*function_out_cb)();
+namespace  States {
+enum RunStates {OFF = 250, DELAY_ON, ON, DELAY_OFF};
+}
 
-using Output::OutType;
+typedef void(*function_out_cb)(void *arg);
+
+using Output::Type;
+using States::RunStates;
 
 class DigitalOut
 {
-  private:
-    uint8_t   m_pin;
-    OutType  m_type;
-
-    bool     m_activeLow;
-    bool     m_memoryFlag;
-    bool     m_state;
-    bool     m_lastState;
-    bool     m_isgpio;
-
-    uint32_t m_activeTime;
-    uint32_t m_setTime;
-    uint32_t m_offTime;
-
-    int     m_blinkCount;
-
-    // Delay OFF
-    void runTOFF (bool input);
-
-    // Delay ON without memory
-    void runTON (bool input);
-
-    // Delay ON wit memory
-    void runTON_M (bool input, uint32_t offTime);
-
-    // Blink output n-times. If n_blink == 0, will blink while input is true
-    uint8_t blink (bool input, uint8_t n_blink = 0);
-
-    // Set output state
-    void write(bool val);
-
-    function_out_cb fn_rise = nullptr;
-    function_out_cb fn_fall = nullptr;
-
   public:
-    DigitalOut(OutType type, uint32_t time = 0);
-    DigitalOut(OutType type, uint8_t pin, uint32_t time = 0, bool activeLow = false);
+    // Only boolean variable
+    DigitalOut(Type type, uint32_t time1, uint32_t time2);
 
-    void clear();
-    void set();
-    void reset();
-    void run(bool input, uint32_t param = 0);
+    // Digital output or boolean variable (pin = -1)
+    DigitalOut(Type type, const int8_t pin, uint32_t time1 = 0, uint32_t time2 = 0, bool activeLow = false) ;
+
+    uint32_t set();
+    uint32_t reset();
+
+    void run(bool input = false, int count = 0);
+    bool blink(bool input = false, int count = 0);
 
     /* Return the time when output switch active */
     uint32_t switchTime();
 
-    /* Return the preset time */
-    uint32_t getTime();
-
-    /* Update current preset time */
-    void setTime(uint32_t time);
-
-    /* Set off time for auto-reset delay-on timer */
-    void setOffTime(uint32_t time) ;
+    /* Update current preset times */
+    void setTime(uint32_t time1, uint32_t time2);
 
     /* Return actual state */
-    int read() ;
+    int read();
 
     /* An operator shorthand for read() */
     operator bool() {
       return read();
     }
 
+    /* An operator shorthand for read() */
+    operator int() {
+      return read();
+    }
+
     /* A shorthand for write() */
     void operator= (bool value) {
       write(value);
+    }
+    /* A shorthand for write() */
+    void operator= (int value) {
+      write((bool)value);
     }
 
     inline void onRising(function_out_cb fn) {
@@ -88,6 +66,36 @@ class DigitalOut
       fn_fall = fn;
     }
 
+    inline int getPin() {
+      return m_pin;
+    }
+
+    inline bool isActive() {
+      return m_isActive;
+    }
+
+  private:
+    Type  m_type = Type::SR;
+    int8_t   m_pin = -1;
+    bool     m_activeLow = false;
+    bool     m_memory = false;
+    bool     m_isActive = false;
+    bool     m_lastState = false;
+
+    uint32_t m_activeTime;
+    uint32_t m_offTime;
+    uint32_t m_onTime;
+
+    int      m_runState = RunStates::OFF;
+    int      m_blinkCount = 0;
+    
+
+    // Set output state
+    void write(bool val);
+
+    // Callback rising functions
+    function_out_cb fn_rise = nullptr;
+    function_out_cb fn_fall = nullptr;
 };
 
 #endif
