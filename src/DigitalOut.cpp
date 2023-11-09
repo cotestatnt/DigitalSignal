@@ -59,22 +59,22 @@ void DigitalOut::run(bool input, int count) {
     m_blinkCount = 0;
   }
 
-  static int lastState = -1;
-  if (lastState != m_runState) {
-    lastState = m_runState;
-    Serial.println(m_runState);
-  }
-  
-  switch (m_runState) {    
+  // static int lastState = -1;
+  // if (lastState != m_runState) {
+  //   lastState = m_runState;
+  //   Serial.println(m_runState);
+  // }
+
+  switch (m_runState) {
     case RunStates::OFF :
-      m_waitOff = false;         
+      m_waitOff = false;
       if (input) {
         m_activeTime = millis();
         m_runState = RunStates::DELAY_ON;
 
         // If Blink, set out ON immediately on input level HIGH
         if (m_type == Type::BLINK) {
-          m_runState = RunStates::ON;          
+          m_runState = RunStates::ON;
         }
       }
       // Reset after last blink (do nothing if count == 0)
@@ -109,22 +109,22 @@ void DigitalOut::run(bool input, int count) {
 
         // Increase blink counter (do nothing if count == 0)
         if ((++m_blinkCount >= count) && count ) {
-          m_runState = RunStates::OFF;                   
+          m_runState = RunStates::OFF;
         }
         return;
       }
 
-      // Reset output 
-      if (input == false) {        
-        if ((m_type == Type::TON_TOFF) || (m_type == Type::TON_M && m_offTime)) {                    
+      // Reset output
+      if (input == false) {
+        if ((m_type == Type::TON_TOFF) || (m_type == Type::TON_M && m_offTime)) {
           if (m_waitOff == false) {
             m_waitOff = true;
-            m_activeTime = millis();  
-            break;        
+            m_activeTime = millis();
+            break;
           }
-          if (millis() - m_activeTime > m_offTime) {          
+          if (millis() - m_activeTime > m_offTime) {
             m_activeTime = reset();
-            m_runState = RunStates::OFF;                    
+            m_runState = RunStates::OFF;
           }
         }
       }
