@@ -88,7 +88,8 @@ class DigitalOut
 
     int      m_runState = RunStates::OFF;
     int      m_blinkCount = 0;
-    
+    bool     m_lastInput = false;
+    bool     m_waitOff = false; 
 
     // Set output state
     void write(bool val);

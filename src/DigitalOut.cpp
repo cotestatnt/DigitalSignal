@@ -42,6 +42,7 @@ DigitalOut::DigitalOut(Type type, const int8_t pin, uint32_t time1, uint32_t tim
         m_offTime = time1;
         m_onTime = 0;
       }
+      m_type = Type::TON_TOFF;
       break;
     default:
       break;
@@ -49,27 +50,35 @@ DigitalOut::DigitalOut(Type type, const int8_t pin, uint32_t time1, uint32_t tim
 }
 
 
+
 void DigitalOut::run(bool input, int count) {
-  static bool m_lastInput = false;
+
   // Input signal edge
   if (m_lastInput != input) {
     m_lastInput = input;
     m_blinkCount = 0;
   }
 
-  switch (m_runState) {
+  static int lastState = -1;
+  if (lastState != m_runState) {
+    lastState = m_runState;
+    Serial.println(m_runState);
+  }
+  
+  switch (m_runState) {    
     case RunStates::OFF :
+      m_waitOff = false;         
       if (input) {
         m_activeTime = millis();
         m_runState = RunStates::DELAY_ON;
 
         // If Blink, set out ON immediately on input level HIGH
         if (m_type == Type::BLINK) {
-          m_runState = RunStates::ON;
+          m_runState = RunStates::ON;          
         }
       }
       // Reset after last blink (do nothing if count == 0)
-      if ((m_blinkCount >= count) && (m_type == Type::BLINK) && count) {
+      if ((m_blinkCount >= count) && (m_type == Type::BLINK) && (count != 0)) {
         m_activeTime = reset();
       }
       break;
@@ -100,16 +109,23 @@ void DigitalOut::run(bool input, int count) {
 
         // Increase blink counter (do nothing if count == 0)
         if ((++m_blinkCount >= count) && count ) {
-          m_runState = RunStates::OFF;
+          m_runState = RunStates::OFF;                   
         }
         return;
       }
 
-      // If m_memory == true, timer can be resetted only manually
-      if (!m_memory || (m_type == Type::TON_TOFF)) {
-        if (millis() - m_activeTime > m_offTime && !input) {
-          m_activeTime = reset();
-          m_runState = RunStates::OFF;
+      // Reset output 
+      if (input == false) {        
+        if ((m_type == Type::TON_TOFF) || (m_type == Type::TON_M && m_offTime)) {                    
+          if (m_waitOff == false) {
+            m_waitOff = true;
+            m_activeTime = millis();  
+            break;        
+          }
+          if (millis() - m_activeTime > m_offTime) {          
+            m_activeTime = reset();
+            m_runState = RunStates::OFF;                    
+          }
         }
       }
       break;
@@ -135,7 +151,7 @@ uint32_t DigitalOut::set() {
   m_isActive = true;
 
   // Execute callback function on rising edge
-  if (!m_lastState && fn_rise != nullptr ) {
+  if (!m_lastState && (fn_rise != nullptr)) {
     m_lastState = true;
     fn_rise(this);
   }
@@ -149,7 +165,7 @@ uint32_t DigitalOut::reset() {
   m_isActive = false;
 
   // Execute callback function on falling edge
-  if (m_lastState && fn_fall != nullptr) {
+  if (m_lastState && (fn_fall != nullptr)) {
     m_lastState = false;
     fn_fall(this);
   }

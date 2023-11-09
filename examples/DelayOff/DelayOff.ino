@@ -4,7 +4,7 @@
 #define LED1 LED_BUILTIN
 
 DigitalIn   button(BTN1);                        // Default INPUT_PULLUP, debounce threshold 70ms
-DigitalOut  output(OutType::TOFF, LED1, 2000);   // Delayed OFF timer
+DigitalOut  output(Type::TOFF, LED1, 0, 2000);   // Delayed OFF timer
 
 /*               ___________     TOFF = 2000
 * input:   _____|           |_______________________________

@@ -5,8 +5,8 @@
 #define LED2 12
 
 DigitalIn   button(BTN1);                      // Default INPUT_PULLUP, debounce threshold 70ms
-DigitalOut  out1(OutType::BLINK, LED1, 500);   // Blink with 500ms interval
-DigitalOut  out2(OutType::BLINK, LED2, 250);   // Blink with 250ms interval (for 5 times)
+DigitalOut  out1(Type::BLINK, LED1, 500, 500);   // Blink with 500ms interval
+DigitalOut  out2(Type::BLINK, LED2, 250, 100);   // Blink with 250ms on /100ms off interval (for 5 times)
 
 void setup() {
 }

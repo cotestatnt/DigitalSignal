@@ -4,9 +4,9 @@
 #define BTN2 3
 #define RLY1 13
 
-DigitalIn   btnSet(BTN1);                         // Default INPUT_PULLUP, debounce threshold 70ms
-DigitalIn   btnReset(BTN2);                       // Default INPUT_PULLUP, debounce threshold 70ms
-DigitalOut  relay1(OutType::SR, RLY1, 0, true);   // Set/Reset relay coil (active on LOW signal)
+DigitalIn   btnSet(BTN1);                            // Default INPUT_PULLUP, debounce threshold 70ms
+DigitalIn   btnReset(BTN2);                          // Default INPUT_PULLUP, debounce threshold 70ms
+DigitalOut  relay1(Type::SR, RLY1, 0, 0, true);      // Set/Reset relay coil (active on LOW signal)
 
 void setup() {
 }
