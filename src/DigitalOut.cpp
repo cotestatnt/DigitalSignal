@@ -151,9 +151,11 @@ uint32_t DigitalOut::set() {
   m_isActive = true;
 
   // Execute callback function on rising edge
-  if (!m_lastState && (fn_rise != nullptr)) {
+  if (!m_lastState) {
     m_lastState = true;
-    fn_rise(this);
+    if (fn_rise != nullptr) {
+      fn_rise(this);
+    }
   }
   return millis();
 }
@@ -165,9 +167,11 @@ uint32_t DigitalOut::reset() {
   m_isActive = false;
 
   // Execute callback function on falling edge
-  if (m_lastState && (fn_fall != nullptr)) {
+  if (m_lastState ) {
     m_lastState = false;
-    fn_fall(this);
+    if (fn_fall != nullptr) {
+      fn_fall(this);
+    }
   }
   m_runState = RunStates::OFF;
   return millis();
